@@ -48,7 +48,7 @@ pipeline {
 						  //git clone https://${LT_CI_USER}:${LT_CI_PASSWORD}@github.com/532629/employee-producer.git
               					   // git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git
 						  	container('jnlp'){
-								  sh 'echo pwd - before clone'
+								 // sh 'echo pwd - before clone'
 								  sh 'pwd'
 								  sh 'ls -ltrha'
 								  //sh 'rm -rf employee-producer'
@@ -83,8 +83,7 @@ pipeline {
 				stage('Docker Build and Publish') {
 						steps {	
 							container('docker') {
-						sh 'cd employee-producer'
-						sh 'docker build -t ggupta008/employee-producer .'
+						sh 'cd employee-producer && docker build -t ggupta008/employee-producer .'
 						sh 'echo "Heyram@1234" | docker login -u ggupta008 --password-stdin && docker push "ggupta008/employee-producer"'
 						//sh 'docker login --username=ggupta008 --password="Heyram%401234"'
 							}
