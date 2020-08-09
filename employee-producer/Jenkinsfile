@@ -55,7 +55,9 @@ pipeline {
 								
 						 	 }
 							  container('maven') {
-								         //sh 'cd employee-producer'
+								          sh 'cd employee-producer'
+								  sh 'echo pwd'
+								  sh 'ls -ltrha'
 									  sh 'mvn clean install'
 									  echo "Build Steps executed sucessfully"
 									}
