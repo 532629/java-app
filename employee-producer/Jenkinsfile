@@ -43,28 +43,25 @@ pipeline {
 
 				stage('Build') {
 					  steps {
+						  // This steps not required in this case unit we neet to clone another dependent repository and build dependent artifacts
 						  //git branch: 'master',
     						  //    url: 'https://532629:Heyram%401234@github.com/532629/employee-producer.git'
 						  //git clone https://${LT_CI_USER}:${LT_CI_PASSWORD}@github.com/532629/employee-producer.git
-              					   // git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git
+              					  // git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git
 						  	container('jnlp'){
 								 // sh 'echo pwd - before clone'
 								  sh 'pwd'
-								  sh 'ls -ltrha'
-								  //sh 'rm -rf employee-producer'
-								  sh 'rm -rf java-app'
-								  //sh 'git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git'
-								 //sh 'git clone https://532629:Heyram%401234@github.com/532629/java-app.git'
-								 
+								  sh 'ls -ltrha'						 
 						 	 }
+						  
 							  container('maven') {
 								  sh 'cd employee-producer && mvn clean install '
 								  sh 'echo pwd'
 								  sh 'pwd'
 								  sh 'ls -ltrha'
-									 // sh 'mvn clean install employee-producer/pom.xml'
-									  echo "Build Steps executed sucessfully"
-									}
+								// sh 'mvn clean install employee-producer/pom.xml'
+								echo "Build Steps executed sucessfully"
+								}
 					  }
 				}
 
