@@ -48,10 +48,16 @@ pipeline {
 						  //git clone https://${LT_CI_USER}:${LT_CI_PASSWORD}@github.com/532629/employee-producer.git
               					   // git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git
 						  	container('jnlp'){
+								  sh 'echo pwd - before clone'
+								  sh 'pwd'
+								  sh 'ls -ltrha'
 								  //sh 'rm -rf employee-producer'
 								  sh 'rm -rf java-app'
 								  //sh 'git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git'
 								 sh 'git clone https://532629:Heyram%401234@github.com/532629/java-app.git'
+								 sh 'echo pwd - after cone'
+								  sh 'pwd'
+								  sh 'ls -ltrha'
 								
 						 	 }
 							  container('maven') {
