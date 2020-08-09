@@ -54,18 +54,15 @@ pipeline {
 								  //sh 'rm -rf employee-producer'
 								  sh 'rm -rf java-app'
 								  //sh 'git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git'
-								 sh 'git clone https://532629:Heyram%401234@github.com/532629/java-app.git'
-								 sh 'echo pwd - after cone'
-								  sh 'pwd'
-								  sh 'ls -ltrha'
-								
+								 //sh 'git clone https://532629:Heyram%401234@github.com/532629/java-app.git'
+								 
 						 	 }
 							  container('maven') {
-								          sh 'cd employee-producer'
+								  sh 'cd employee-producer && mvn clean install '
 								  sh 'echo pwd'
 								  sh 'pwd'
 								  sh 'ls -ltrha'
-									  sh 'mvn clean install employee-producer/pom.xml'
+									 // sh 'mvn clean install employee-producer/pom.xml'
 									  echo "Build Steps executed sucessfully"
 									}
 					  }
