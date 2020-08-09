@@ -3,7 +3,7 @@ pipeline {
     		kubernetes {
       		//label 'promo-app'  // all your pods will be named with this prefix, followed by a unique id
       		idleMinutes 5  // how long the pod will live after no jobs have run on it
-      		yamlFile 'agent-pod.yaml'  // path to the pod definition relative to the root of our project 
+      		yamlFile 'employee-producer/agent-pod.yaml'  // path to the pod definition relative to the root of our project 
       		//defaultContainer 'jnlp'  // define a default container if more than a few stages use it, will default to jnlp container
 		}
            }//EOF agent
@@ -48,10 +48,13 @@ pipeline {
 						  //git clone https://${LT_CI_USER}:${LT_CI_PASSWORD}@github.com/532629/employee-producer.git
               					   // git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git
 						  	container('jnlp'){
-								  sh 'rm -rf employee-producer'
-								  sh 'git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git'
+								  //sh 'rm -rf employee-producer'
+								  sh 'rm -rf java-app'
+								  //sh 'git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git'
+								 sh 'git clone https://532629:Heyram%401234@github.com/53262/java-app.git'
 						 	 }
 							  container('maven') {
+								         sh 'cd employee-producer'
 									  sh 'mvn clean install'
 									  echo "Build Steps executed sucessfully"
 									}
@@ -73,6 +76,7 @@ pipeline {
 				stage('Docker Build and Publish') {
 						steps {	
 							container('docker') {
+						sh 'cd employee-producer'
 						sh 'docker build -t ggupta008/employee-producer .'
 						sh 'echo "Heyram@1234" | docker login -u ggupta008 --password-stdin && docker push "ggupta008/employee-producer"'
 						//sh 'docker login --username=ggupta008 --password="Heyram%401234"'
