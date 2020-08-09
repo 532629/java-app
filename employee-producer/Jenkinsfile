@@ -51,7 +51,7 @@ pipeline {
 								  //sh 'rm -rf employee-producer'
 								  sh 'rm -rf java-app'
 								  //sh 'git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git'
-								 sh 'git clone https://532629:Heyram%401234@github.com/java-app.git'
+								 sh 'git clone https://532629:Heyram%401234@github.com/532629/java-app.git'
 								
 						 	 }
 							  container('maven') {
