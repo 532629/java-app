@@ -58,7 +58,7 @@ pipeline {
 								          sh 'cd employee-producer'
 								  sh 'echo pwd'
 								  sh 'ls -ltrha'
-									  sh 'mvn clean install'
+									  sh 'mvn clean install employee-producer/pom.xml'
 									  echo "Build Steps executed sucessfully"
 									}
 					  }
