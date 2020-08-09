@@ -1,0 +1,99 @@
+pipeline {
+	agent {
+    		kubernetes {
+      		//label 'promo-app'  // all your pods will be named with this prefix, followed by a unique id
+      		idleMinutes 5  // how long the pod will live after no jobs have run on it
+      		yamlFile 'agent-pod.yaml'  // path to the pod definition relative to the root of our project 
+      		//defaultContainer 'jnlp'  // define a default container if more than a few stages use it, will default to jnlp container
+		}
+           }//EOF agent
+	
+   stages {
+				stage('Platform Standup') {
+				  steps {
+						  //build job: 'Infrastructure/Run time Setup'
+						  //echo "Ansible CM framwork has been executed sucessfully"
+						  echo "Skipping as this has been done already"
+						}
+					}
+
+				stage('Platform Validation') {
+					parallel {
+								stage('K8 Infra Test') {
+									steps {
+								           echo "Sonobuoy test framwork has been executed sucessfully"
+										 }
+								   }
+								stage('Openstack Infra Test') {
+									steps {
+							               echo "Open test framwork has been executed sucessfully"
+										
+									}
+								}
+
+								stage('Openstack Health Test') {
+									steps {
+											echo "Open test framwork has been executed sucessfully"
+									}
+								 }
+
+
+						} //parallel
+					}
+
+				stage('Build') {
+					  steps {
+						  //git branch: 'master',
+    						  //    url: 'https://532629:Heyram%401234@github.com/532629/employee-producer.git'
+						  //git clone https://${LT_CI_USER}:${LT_CI_PASSWORD}@github.com/532629/employee-producer.git
+              					   // git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git
+						  	container('jnlp'){
+								  sh 'rm -rf employee-producer'
+								  sh 'git clone https://532629:Heyram%401234@github.com/532629/employee-producer.git'
+						 	 }
+							  container('maven') {
+									  sh 'mvn clean install'
+									  echo "Build Steps executed sucessfully"
+									}
+					  }
+				}
+
+				stage('Code-Coverage') {
+						steps {
+					   		echo "Code-Coverage Steps executed sucessfully"
+						}
+				}
+				
+				stage('Publish-Artifacts') {
+						steps {
+						   echo "Publish Artifacts"		
+						}
+				}
+				
+				stage('Docker Build and Publish') {
+						steps {	
+							container('docker') {
+						sh 'docker build -t ggupta008/employee-producer .'
+						sh 'echo "Heyram@1234" | docker login -u ggupta008 --password-stdin && docker push "ggupta008/employee-producer"'
+						//sh 'docker login --username=ggupta008 --password="Heyram%401234"'
+							}
+						}
+					
+				}
+				
+				stage('Aceptance Testing') {
+						steps {
+					    echo "Selenium Testing sucessfully"
+					}
+				}
+      
+				stage('Publish to Production') {
+				  steps {
+					  script {	  
+					 	echo "Publish to Production"
+						 // sh 'kubectl run employee-producer --image=ggupta008/employee-producer -n devops'
+					    }
+				       }
+				}
+		}
+	}
